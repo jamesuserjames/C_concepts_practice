@@ -660,3 +660,546 @@ Expected output:
 1
 */
 EOF
+
+
+
+
+mkdir -p "$PROJECT/ex17"
+cat > "$PROJECT/ex17/ft_recursive_power.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_recursive_power(int nb, int power)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_recursive_power(2, 4));
+	printf("%d\n", ft_recursive_power(7, 1));
+	printf("%d\n", ft_recursive_power(5, 0));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Return nb raised to power using recursion.
+
+TODO:
+1. Identify what any number raised to power 0 should return
+2. Reduce power by 1 in each recursive call
+3. Combine nb with the result of the recursive call
+
+Test notes:
+The tests cover repeated recursion, a power of one, and the power-zero boundary.
+
+Expected output:
+16
+7
+1
+*/
+EOF
+
+mkdir -p "$PROJECT/ex18"
+cat > "$PROJECT/ex18/ft_recursive_countdown.c" <<'EOF'
+#include <unistd.h>
+
+void	ft_recursive_countdown(int n)
+{
+	
+}
+
+int	main(void)
+{
+	ft_recursive_countdown(5);
+	write(1, "\n", 1);
+	ft_recursive_countdown(1);
+	write(1, "\n", 1);
+	ft_recursive_countdown(0);
+	write(1, "\n", 1);
+	return (0);
+}
+
+/*
+Allowed functions: write
+
+Goal:
+Print every digit from n down to 0 using recursion. The tests only use values from 0 to 9.
+
+TODO:
+1. Print the current value of n
+2. Decide when recursion should stop
+3. Recursively continue with n - 1
+
+Test notes:
+The tests cover a normal countdown, the smallest countdown above zero, and the base-case boundary.
+
+Expected output:
+543210
+10
+0
+*/
+EOF
+
+mkdir -p "$PROJECT/ex19"
+cat > "$PROJECT/ex19/ft_recursive_strlen.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_recursive_strlen(char *str)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_recursive_strlen("codam"));
+	printf("%d\n", ft_recursive_strlen("a"));
+	printf("%d\n", ft_recursive_strlen(""));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Return the length of a null-terminated string using recursion.
+
+TODO:
+1. Examine the current character
+2. Identify the end-of-string base case
+3. Move to the next character recursively
+
+Test notes:
+The tests cover a normal string, a one-character string, and the empty-string boundary.
+
+Expected output:
+5
+1
+0
+*/
+EOF
+
+mkdir -p "$PROJECT/ex20"
+cat > "$PROJECT/ex20/ft_recursive_digit_sum.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_recursive_digit_sum(int n)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_recursive_digit_sum(5832));
+	printf("%d\n", ft_recursive_digit_sum(7));
+	printf("%d\n", ft_recursive_digit_sum(0));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Return the sum of all decimal digits in a non-negative integer using recursion.
+
+TODO:
+1. Find the last digit of n
+2. Remove the last digit for the recursive call
+3. Identify when no digits remain
+
+Test notes:
+The tests cover a multi-digit number, a single-digit number, and zero as the boundary.
+
+Expected output:
+18
+7
+0
+*/
+EOF
+
+mkdir -p "$PROJECT/ex21"
+cat > "$PROJECT/ex21/ft_fibonacci.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_fibonacci(int index)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_fibonacci(6));
+	printf("%d\n", ft_fibonacci(1));
+	printf("%d\n", ft_fibonacci(0));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Return the Fibonacci number at the given index using recursion.
+
+TODO:
+1. Determine the values at indexes 0 and 1
+2. Express a Fibonacci number using the previous two indexes
+3. Recursively calculate both previous values
+
+Test notes:
+The tests cover a normal recursive Fibonacci calculation and both base-case boundaries.
+
+Expected output:
+8
+1
+0
+*/
+EOF
+
+mkdir -p "$PROJECT/ex22"
+cat > "$PROJECT/ex22/ft_strcpy.c" <<'EOF'
+#include <stdio.h>
+
+char	*ft_strcpy(char *dest, char *src)
+{
+	
+}
+
+int	main(void)
+{
+	char	dest1[20];
+	char	dest2[20];
+	char	dest3[20];
+
+	ft_strcpy(dest1, "hello");
+	ft_strcpy(dest2, "a");
+	ft_strcpy(dest3, "");
+	printf("%s\n", dest1);
+	printf("%s\n", dest2);
+	printf("[%s]\n", dest3);
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Copy src into dest, including the terminating null character, and return dest.
+
+TODO:
+1. Read src one character at a time
+2. Copy each character into the matching position in dest
+3. Copy the null terminator and return dest
+
+Test notes:
+The tests cover a normal string, a one-character string, and an empty string.
+
+Expected output:
+hello
+a
+[]
+*/
+EOF
+
+mkdir -p "$PROJECT/ex23"
+cat > "$PROJECT/ex23/ft_strcmp.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_strcmp("hello", "hello"));
+	printf("%d\n", ft_strcmp("abc", "abd") < 0);
+	printf("%d\n", ft_strcmp("abd", "abc") > 0);
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Compare two strings character by character like strcmp.
+
+TODO:
+1. Move through both strings while their characters are equal
+2. Stop at the first difference or at the end of a string
+3. Return the difference between the first unequal unsigned characters
+
+Test notes:
+The tests prove equality, a negative comparison, and a positive comparison without depending on the exact magnitude of nonzero results.
+
+Expected output:
+0
+1
+1
+*/
+EOF
+
+mkdir -p "$PROJECT/ex24"
+cat > "$PROJECT/ex24/ft_strupcase.c" <<'EOF'
+#include <stdio.h>
+
+char	*ft_strupcase(char *str)
+{
+	
+}
+
+int	main(void)
+{
+	char	str1[] = "Hello World!";
+	char	str2[] = "abc123";
+	char	str3[] = "";
+
+	printf("%s\n", ft_strupcase(str1));
+	printf("%s\n", ft_strupcase(str2));
+	printf("[%s]\n", ft_strupcase(str3));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Convert every lowercase letter in str to uppercase and return str.
+
+TODO:
+1. Move through the string character by character
+2. Detect lowercase ASCII letters
+3. Convert only lowercase letters to uppercase
+
+Test notes:
+The tests cover mixed text with punctuation, letters mixed with digits, and the empty-string boundary.
+
+Expected output:
+HELLO WORLD!
+ABC123
+[]
+*/
+EOF
+
+mkdir -p "$PROJECT/ex25"
+cat > "$PROJECT/ex25/ft_reverse_int_array.c" <<'EOF'
+#include <stdio.h>
+
+void	ft_reverse_int_array(int *tab, int size)
+{
+	
+}
+
+int	main(void)
+{
+	int	tab1[] = {1, 2, 3, 4, 5};
+	int	tab2[] = {10, 20};
+	int	tab3[] = {42};
+	int	i;
+
+	ft_reverse_int_array(tab1, 5);
+	i = 0;
+	while (i < 5)
+	{
+		printf("%d", tab1[i]);
+		if (i < 4)
+			printf(" ");
+		i++;
+	}
+	printf("\n");
+	ft_reverse_int_array(tab2, 2);
+	printf("%d %d\n", tab2[0], tab2[1]);
+	ft_reverse_int_array(tab3, 1);
+	printf("%d\n", tab3[0]);
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Reverse the order of the integers in an array.
+
+TODO:
+1. Identify matching positions from the beginning and end
+2. Swap those two values
+3. Continue until the positions meet in the middle
+
+Test notes:
+The tests cover an odd-sized array, an even-sized array, and a one-element boundary case.
+
+Expected output:
+5 4 3 2 1
+20 10
+42
+*/
+EOF
+
+mkdir -p "$PROJECT/ex26"
+cat > "$PROJECT/ex26/ft_sort_int_array.c" <<'EOF'
+#include <stdio.h>
+
+void	ft_sort_int_array(int *tab, int size)
+{
+	
+}
+
+int	main(void)
+{
+	int	tab1[] = {5, 2, 4, 1, 3};
+	int	tab2[] = {3, -1, 0};
+	int	tab3[] = {7};
+	int	i;
+
+	ft_sort_int_array(tab1, 5);
+	i = 0;
+	while (i < 5)
+	{
+		printf("%d", tab1[i]);
+		if (i < 4)
+			printf(" ");
+		i++;
+	}
+	printf("\n");
+	ft_sort_int_array(tab2, 3);
+	printf("%d %d %d\n", tab2[0], tab2[1], tab2[2]);
+	ft_sort_int_array(tab3, 1);
+	printf("%d\n", tab3[0]);
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Sort an integer array from smallest to largest.
+
+TODO:
+1. Compare values in the array
+2. Swap values that are in the wrong order
+3. Continue until the entire array is sorted
+
+Test notes:
+The tests cover an unsorted positive array, negative and zero values, and a one-element boundary case.
+
+Expected output:
+1 2 3 4 5
+-1 0 3
+7
+*/
+EOF
+
+mkdir -p "$PROJECT/ex27"
+cat > "$PROJECT/ex27/ft_iterative_power.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_iterative_power(int nb, int power)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_iterative_power(3, 4));
+	printf("%d\n", ft_iterative_power(-2, 3));
+	printf("%d\n", ft_iterative_power(10, 0));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Return nb raised to power using a loop instead of recursion.
+
+TODO:
+1. Create a result with the correct starting value
+2. Multiply it by nb repeatedly
+3. Handle power zero correctly
+
+Test notes:
+The tests cover repeated multiplication, a negative base with an odd power, and the power-zero boundary.
+
+Expected output:
+81
+-8
+1
+*/
+EOF
+
+mkdir -p "$PROJECT/ex28"
+cat > "$PROJECT/ex28/ft_is_prime.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_is_prime(int nb)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_is_prime(17));
+	printf("%d\n", ft_is_prime(18));
+	printf("%d\n", ft_is_prime(2));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Return 1 if nb is prime and 0 otherwise.
+
+TODO:
+1. Understand what makes a number prime
+2. Test whether another integer divides nb exactly
+3. Return the correct result when a divisor is found or all required divisors have been checked
+
+Test notes:
+The tests cover a normal prime number, a composite number, and 2 as the smallest prime boundary.
+
+Expected output:
+1
+0
+1
+*/
+EOF
+
+mkdir -p "$PROJECT/ex29"
+cat > "$PROJECT/ex29/ft_find_next_prime.c" <<'EOF'
+#include <stdio.h>
+
+int	ft_find_next_prime(int nb)
+{
+	
+}
+
+int	main(void)
+{
+	printf("%d\n", ft_find_next_prime(14));
+	printf("%d\n", ft_find_next_prime(17));
+	printf("%d\n", ft_find_next_prime(0));
+	return (0);
+}
+
+/*
+Allowed functions: none
+
+Goal:
+Return the smallest prime number greater than or equal to nb.
+
+TODO:
+1. Start checking at nb
+2. Determine whether the current number is prime
+3. Continue upward until a prime number is found
+
+Test notes:
+The tests cover moving forward to a prime, receiving an already-prime value, and an input below the smallest prime.
+
+Expected output:
+17
+17
+2
+*/
+EOF
