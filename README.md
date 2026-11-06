@@ -1,6 +1,8 @@
 # 💻 C Concepts Practice
 
-A personal collection of **C programming exercises**, organized by concept and difficulty. Built to practice fundamentals, strengthen problem-solving, and prepare for projects in the **42 curriculum**.
+A personal collection of **C programming exercises**, organized by concept and difficulty. Built to practice fundamentals.
+## 🎯 Purpose
+Learn each concept by **writing the code myself**, then compiling, testing, and improving it. Exercises are deliberately small so I can focus on one problem at a time.
 
 ## 📁 Repository Structure
 
@@ -15,10 +17,6 @@ C_concepts_practice/
 └── recursion_easy/                  # Recursion fundamentals
 ```
 
-## 🎯 Purpose
-
-Learn each concept by **writing the code myself**, then compiling, testing, and improving it. Exercises are deliberately small so I can focus on one problem at a time.
-
 ## ⚙️ Workflow
 
 1. Pick a concept folder and read the exercise instructions.
@@ -30,14 +28,5 @@ Learn each concept by **writing the code myself**, then compiling, testing, and 
 cc -Wall -Wextra -Werror exercise.c -o exercise.out
 ./exercise.out
 ```
-
-Some exercises contain intentionally empty functions and will not compile cleanly until implemented. For practice drills only, compile without `-Werror` while developing if needed.
-
-## 🧠 Coding Style
-
-- Prefer clean, concise, readable C.
-- Use direct return expressions when they improve clarity.
-- Practice recursion, pointer arithmetic, and explicit error handling.
-- Aim for **42 Norm** conventions in implementation functions.
 
 > A learning repository, not a finished library. Some files are training templates, others contain working solutions.
