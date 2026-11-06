@@ -1,39 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$(dirname "$0")" || exit 1
 
-if [[ ! -e "$DIR/ft_static_counter.c" ]]; then
-	cat > "$DIR/ft_static_counter.c" <<'GNL_EXERCISE_EOF'
+cat > 00_ft_static_counter.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_static_counter(void)
+int	ft_static_counter(void)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", ft_static_counter());
-printf("Test 2: %d\n", ft_static_counter());
-printf("Test 3: %d\n", ft_static_counter());
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Return an incrementing count retained across calls.
-
-EXPLANATION:
 Return an incrementing count retained across calls.
 
 TODO:
@@ -46,58 +27,45 @@ EXPECTED OUTPUT:
 Test 1: 1
 Test 2: 2
 Test 3: 3
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", ft_static_counter());
+	printf("Test 2: %d\n", ft_static_counter());
+	printf("Test 3: %d\n", ft_static_counter());
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: return an incrementing count retained across calls.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_static_counter.c"
-else
-	echo "Skipped ft_static_counter.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_static_char.c" ]]; then
-	cat > "$DIR/ft_static_char.c" <<'GNL_EXERCISE_EOF'
+cat > 01_ft_static_char.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
 char ft_static_char(char c)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", (int)ft_static_char('A'));
-printf("Test 2: %c\n", ft_static_char('B'));
-printf("Test 3: %c\n", ft_static_char('C'));
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Return the previous input character (initially NUL), then remember c.
-
-EXPLANATION:
 Return the previous input character (initially NUL), then remember c.
 
 TODO:
@@ -110,58 +78,45 @@ EXPECTED OUTPUT:
 Test 1: 0
 Test 2: A
 Test 3: B
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", (int)ft_static_char('A'));
+	printf("Test 2: %c\n", ft_static_char('B'));
+	printf("Test 3: %c\n", ft_static_char('C'));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: return the previous input character (initially NUL), then remember c.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_static_char.c"
-else
-	echo "Skipped ft_static_char.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_static_buffer.c" ]]; then
-	cat > "$DIR/ft_static_buffer.c" <<'GNL_EXERCISE_EOF'
+cat > 02_ft_static_buffer.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_static_buffer(int value)
+int	ft_static_buffer(int value)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", ft_static_buffer(3));
-printf("Test 2: %d\n", ft_static_buffer(-1));
-printf("Test 3: %d\n", ft_static_buffer(0));
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Add value to a running total preserved across calls.
-
-EXPLANATION:
 Add value to a running total preserved across calls.
 
 TODO:
@@ -174,59 +129,45 @@ EXPECTED OUTPUT:
 Test 1: 3
 Test 2: 2
 Test 3: 2
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", ft_static_buffer(3));
+	printf("Test 2: %d\n", ft_static_buffer(-1));
+	printf("Test 3: %d\n", ft_static_buffer(0));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: add value to a running total preserved across calls.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_static_buffer.c"
-else
-	echo "Skipped ft_static_buffer.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_preserve_state.c" ]]; then
-	cat > "$DIR/ft_preserve_state.c" <<'GNL_EXERCISE_EOF'
+cat > 03_ft_preserve_state.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_preserve_state(int reset)
+int	ft_preserve_state(int reset)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", ft_preserve_state(0));
-printf("Test 2: %d\n", ft_preserve_state(0));
-printf("Test 3: %d\n", ft_preserve_state(1));
-printf("Test 4: %d\n", ft_preserve_state(0));
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Maintain a call counter; reset to zero when reset is nonzero.
-
-EXPLANATION:
 Maintain a call counter; reset to zero when reset is nonzero.
 
 TODO:
@@ -240,23 +181,31 @@ Test 1: 1
 Test 2: 2
 Test 3: 0
 Test 4: 1
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", ft_preserve_state(0));
+	printf("Test 2: %d\n", ft_preserve_state(0));
+	printf("Test 3: %d\n", ft_preserve_state(1));
+	printf("Test 4: %d\n", ft_preserve_state(0));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: maintain a call counter; reset to zero when reset is nonzero.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_preserve_state.c"
-else
-	echo "Skipped ft_preserve_state.c (already exists)"
-fi
 
+echo "Reset 4 exercises in 02_static_variables"

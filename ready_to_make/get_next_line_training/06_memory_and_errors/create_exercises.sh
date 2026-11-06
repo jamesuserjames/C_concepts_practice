@@ -1,44 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$(dirname "$0")" || exit 1
 
-if [[ ! -e "$DIR/ft_handle_eof.c" ]]; then
-	cat > "$DIR/ft_handle_eof.c" <<'GNL_EXERCISE_EOF'
+cat > 00_ft_handle_eof.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_handle_eof(int fd)
+int	ft_handle_eof(int fd)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-int p[2];
-pipe(p);
-write(p[1], "X", 1);
-close(p[1]);
-printf("Test 1: %d\n", ft_read_error(p[0]));
-printf("Test 2: %d\n", ft_read_error(p[0]));
-close(p[0]);
-printf("Test 3: %d\n", ft_read_error(-1));
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-read for implementation; test main may use libc.
-
 GOAL:
-Return 0 on EOF, 1 on data, -1 on read error.
-
-EXPLANATION:
 Return 0 on EOF, 1 on data, -1 on read error.
 
 TODO:
@@ -51,63 +27,54 @@ EXPECTED OUTPUT:
 Test 1: 1
 Test 2: 0
 Test 3: -1
+*/
 
+int	main(void)
+{
+	int	pipe_fd[2];
+
+	if (pipe(pipe_fd) == -1)
+		return (1);
+	if (write(pipe_fd[1], "X", 1) != 1)
+		return (close(pipe_fd[0]), close(pipe_fd[1]), 1);
+	close(pipe_fd[1]);
+
+	printf("Test 1: %d\n", ft_handle_eof(pipe_fd[0]));
+	printf("Test 2: %d\n", ft_handle_eof(pipe_fd[0]));
+	close(pipe_fd[0]);
+	printf("Test 3: %d\n", ft_handle_eof(-1));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: return 0 on EOF, 1 on data, -1 on read error.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_handle_eof.c"
-else
-	echo "Skipped ft_handle_eof.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_handle_read_error.c" ]]; then
-	cat > "$DIR/ft_handle_read_error.c" <<'GNL_EXERCISE_EOF'
+cat > 01_ft_handle_read_error.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_handle_read_error(int fd)
+int	ft_handle_read_error(int fd)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-int p[2];
-pipe(p);
-write(p[1], "X", 1);
-close(p[1]);
-printf("Test 1: %d\n", ft_handle_read_error(p[0]));
-printf("Test 2: %d\n", ft_handle_read_error(p[0]));
-close(p[0]);
-printf("Test 3: %d\n", ft_handle_read_error(-1));
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-read for implementation; test main may use libc.
-
 GOAL:
-Read one byte, returning -1 for failure or actual number read otherwise.
-
-EXPLANATION:
 Read one byte, returning -1 for failure or actual number read otherwise.
 
 TODO:
@@ -120,63 +87,54 @@ EXPECTED OUTPUT:
 Test 1: 1
 Test 2: 0
 Test 3: -1
+*/
 
+int	main(void)
+{
+	int	pipe_fd[2];
+
+	if (pipe(pipe_fd) == -1)
+		return (1);
+	if (write(pipe_fd[1], "X", 1) != 1)
+		return (close(pipe_fd[0]), close(pipe_fd[1]), 1);
+	close(pipe_fd[1]);
+
+	printf("Test 1: %d\n", ft_handle_read_error(pipe_fd[0]));
+	printf("Test 2: %d\n", ft_handle_read_error(pipe_fd[0]));
+	close(pipe_fd[0]);
+	printf("Test 3: %d\n", ft_handle_read_error(-1));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: read one byte, returning -1 for failure or actual number read otherwise.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_handle_read_error.c"
-else
-	echo "Skipped ft_handle_read_error.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_handle_malloc_error.c" ]]; then
-	cat > "$DIR/ft_handle_malloc_error.c" <<'GNL_EXERCISE_EOF'
+cat > 02_ft_handle_malloc_error.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_handle_malloc_error(int len)
+char	*ft_handle_malloc_error(int len)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *s;
-s = ft_handle_malloc_error(3);
-printf("Test 1: %d\n", s != NULL && s[0] == 0 && s[3] == 0);
-free(s);
-s = ft_handle_malloc_error(0);
-printf("Test 2: %d\n", s != NULL && s[0] == 0);
-free(s);
-printf("Test 3: %d\n", ft_handle_malloc_error(-1) == NULL);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-malloc, free for implementation; test main may use libc.
-
 GOAL:
-Allocate len+1 zero-initialized bytes (NULL for negative len).
-
-EXPLANATION:
 Allocate len+1 zero-initialized bytes (NULL for negative len).
 
 TODO:
@@ -189,64 +147,56 @@ EXPECTED OUTPUT:
 Test 1: 1
 Test 2: 1
 Test 3: 1
+*/
 
+int	main(void)
+{
+	char	*result;
+
+	result = ft_handle_malloc_error(3);
+	printf("Test 1: %d\n", result != NULL
+		&& result[0] == 0 && result[3] == 0);
+	free(result);
+
+	result = ft_handle_malloc_error(0);
+	printf("Test 2: %d\n", result != NULL && result[0] == 0);
+	free(result);
+
+	result = ft_handle_malloc_error(-1);
+	printf("Test 3: %d\n", result == NULL);
+	free(result);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: allocate len+1 zero-initialized bytes (NULL for negative len).
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_handle_malloc_error.c"
-else
-	echo "Skipped ft_handle_malloc_error.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_cleanup_stash.c" ]]; then
-	cat > "$DIR/ft_cleanup_stash.c" <<'GNL_EXERCISE_EOF'
+cat > 03_ft_cleanup_stash.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-void ft_cleanup_stash(char **stash)
+void	ft_cleanup_stash(char **stash)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *p;
-p = malloc(4);
-if (!p) return (1);
-ft_free_null(&p);
-printf("Test 1: %d\n", p == NULL);
-ft_free_null(&p);
-printf("Test 2: %d\n", p == NULL);
-ft_free_null(NULL);
-printf("Test 3: ok\n");
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-free for implementation; test main may use libc.
-
 GOAL:
-Release heap stash and set it to NULL.
-
-EXPLANATION:
 Release heap stash and set it to NULL.
 
 TODO:
@@ -259,23 +209,40 @@ EXPECTED OUTPUT:
 Test 1: 1
 Test 2: 1
 Test 3: ok
+*/
 
+int	main(void)
+{
+	char	*stash;
+
+	stash = malloc(4);
+	if (!stash)
+		return (1);
+	ft_cleanup_stash(&stash);
+	printf("Test 1: %d\n", stash == NULL);
+
+	ft_cleanup_stash(&stash);
+	printf("Test 2: %d\n", stash == NULL);
+
+	ft_cleanup_stash(NULL);
+	printf("Test 3: ok\n");
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: release heap stash and set it to NULL.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_cleanup_stash.c"
-else
-	echo "Skipped ft_cleanup_stash.c (already exists)"
-fi
 
+echo "Reset 4 exercises in 06_memory_and_errors"

@@ -1,40 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$(dirname "$0")" || exit 1
 
-if [[ ! -e "$DIR/ft_strlen_gnl.c" ]]; then
-	cat > "$DIR/ft_strlen_gnl.c" <<'GNL_EXERCISE_EOF'
+cat > 00_ft_strlen_gnl.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_strlen_gnl(const char *str)
+int	ft_strlen_gnl(const char *str)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", ft_strlen_gnl("Hello"));
-printf("Test 2: %d\n", ft_strlen_gnl(""));
-printf("Test 3: %d\n", ft_strlen_gnl("a\nb"));
-printf("Test 4: %d\n", ft_strlen_gnl(NULL));
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Count the characters in a NUL-terminated string.
-
-EXPLANATION:
 Count the characters in a NUL-terminated string.
 
 TODO:
@@ -48,64 +28,46 @@ Test 1: 5
 Test 2: 0
 Test 3: 3
 Test 4: 0
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", ft_strlen_gnl("Hello"));
+	printf("Test 2: %d\n", ft_strlen_gnl(""));
+	printf("Test 3: %d\n", ft_strlen_gnl("a\nb"));
+	printf("Test 4: %d\n", ft_strlen_gnl(NULL));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: count the characters in a NUL-terminated string.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_strlen_gnl.c"
-else
-	echo "Skipped ft_strlen_gnl.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_strchr_gnl.c" ]]; then
-	cat > "$DIR/ft_strchr_gnl.c" <<'GNL_EXERCISE_EOF'
+cat > 01_ft_strchr_gnl.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_strchr_gnl(const char *str, int c)
+char	*ft_strchr_gnl(const char *str, int c)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char s[] = "ab\ncd";
-char *p;
-p = ft_strchr_gnl(s, '\n');
-printf("Test 1: %ld\n", p ? (long)(p - s) : -1L);
-p = ft_strchr_gnl(s, 'z');
-printf("Test 2: %d\n", p == NULL);
-p = ft_strchr_gnl(s, 0);
-printf("Test 3: %ld\n", p ? (long)(p - s) : -1L);
-printf("Test 4: %d\n", ft_strchr_gnl(NULL, 'a') == NULL);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Find the first occurrence of c, including the final NUL.
-
-EXPLANATION:
 Find the first occurrence of c, including the final NUL.
 
 TODO:
@@ -119,63 +81,55 @@ Test 1: 2
 Test 2: 1
 Test 3: 5
 Test 4: 1
+*/
 
+int	main(void)
+{
+	char	text[] = "ab\ncd";
+	char	*found;
+
+	found = ft_strchr_gnl(text, '\n');
+	printf("Test 1: %ld\n", found ? (long)(found - text) : -1L);
+
+	found = ft_strchr_gnl(text, 'z');
+	printf("Test 2: %d\n", found == NULL);
+
+	found = ft_strchr_gnl(text, '\0');
+	printf("Test 3: %ld\n", found ? (long)(found - text) : -1L);
+
+	printf("Test 4: %d\n", ft_strchr_gnl(NULL, 'a') == NULL);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: find the first occurrence of c, including the final NUL.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_strchr_gnl.c"
-else
-	echo "Skipped ft_strchr_gnl.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_strdup_gnl.c" ]]; then
-	cat > "$DIR/ft_strdup_gnl.c" <<'GNL_EXERCISE_EOF'
+cat > 02_ft_strdup_gnl.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_strdup_gnl(const char *str)
+char	*ft_strdup_gnl(const char *str)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *p;
-p = ft_strdup_gnl("Hello");
-printf("Test 1: [%s]\n", p ? p : "NULL");
-free(p);
-p = ft_strdup_gnl("");
-printf("Test 2: [%s]\n", p ? p : "NULL");
-free(p);
-printf("Test 3: %d\n", ft_strdup_gnl(NULL) == NULL);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-malloc, free for implementation; test main may use libc.
-
 GOAL:
-Allocate a fresh copy of a NUL-terminated string.
-
-EXPLANATION:
 Allocate a fresh copy of a NUL-terminated string.
 
 TODO:
@@ -188,65 +142,53 @@ EXPECTED OUTPUT:
 Test 1: [Hello]
 Test 2: []
 Test 3: 1
+*/
 
+int	main(void)
+{
+	char	*result;
+
+	result = ft_strdup_gnl("Hello");
+	printf("Test 1: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	result = ft_strdup_gnl("");
+	printf("Test 2: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	printf("Test 3: %d\n", ft_strdup_gnl(NULL) == NULL);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: allocate a fresh copy of a NUL-terminated string.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_strdup_gnl.c"
-else
-	echo "Skipped ft_strdup_gnl.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_strjoin_gnl.c" ]]; then
-	cat > "$DIR/ft_strjoin_gnl.c" <<'GNL_EXERCISE_EOF'
+cat > 03_ft_strjoin_gnl.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_strjoin_gnl(const char *a, const char *b)
+char	*ft_strjoin_gnl(const char *a, const char *b)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *p;
-p = ft_strjoin_gnl("ab", "cd");
-printf("Test 1: [%s]\n", p ? p : "NULL");
-free(p);
-p = ft_strjoin_gnl(NULL, "Hi");
-printf("Test 2: [%s]\n", p ? p : "NULL");
-free(p);
-p = ft_strjoin_gnl("", "");
-printf("Test 3: [%s]\n", p ? p : "NULL");
-free(p);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-malloc, free for implementation; test main may use libc.
-
 GOAL:
-Allocate a new string holding a followed by b.
-
-EXPLANATION:
 Allocate a new string holding a followed by b.
 
 TODO:
@@ -259,63 +201,55 @@ EXPECTED OUTPUT:
 Test 1: [abcd]
 Test 2: [Hi]
 Test 3: []
+*/
 
+int	main(void)
+{
+	char	*result;
+
+	result = ft_strjoin_gnl("ab", "cd");
+	printf("Test 1: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	result = ft_strjoin_gnl(NULL, "Hi");
+	printf("Test 2: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	result = ft_strjoin_gnl("", "");
+	printf("Test 3: [%s]\n", result ? result : "NULL");
+	free(result);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+NULL inputs are treated as empty strings; test empty strings and allocation ownership.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. How large must the allocation be?
+2. What happens when a string is NULL?
+3. Why is one extra byte needed?
+4. Who frees the returned allocation?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_strjoin_gnl.c"
-else
-	echo "Skipped ft_strjoin_gnl.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_substr_gnl.c" ]]; then
-	cat > "$DIR/ft_substr_gnl.c" <<'GNL_EXERCISE_EOF'
+cat > 04_ft_substr_gnl.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_substr_gnl(const char *str, int start, int len)
+char	*ft_substr_gnl(const char *str, int start, int len)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *p;
-p = ft_substr_gnl("abcdef", 2, 3);
-printf("Test 1: [%s]\n", p ? p : "NULL");
-free(p);
-p = ft_substr_gnl("abc", 10, 2);
-printf("Test 2: [%s]\n", p ? p : "NULL");
-free(p);
-printf("Test 3: %d\n", ft_substr_gnl("abc", -1, 2) == NULL);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-malloc, free for implementation; test main may use libc.
-
 GOAL:
-Allocate up to len bytes starting at index start.
-
-EXPLANATION:
 Allocate up to len bytes starting at index start.
 
 TODO:
@@ -328,64 +262,53 @@ EXPECTED OUTPUT:
 Test 1: [cde]
 Test 2: []
 Test 3: 1
+*/
 
+int	main(void)
+{
+	char	*result;
+
+	result = ft_substr_gnl("abcdef", 2, 3);
+	printf("Test 1: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	result = ft_substr_gnl("abc", 10, 2);
+	printf("Test 2: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	printf("Test 3: %d\n", ft_substr_gnl("abc", -1, 2) == NULL);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: allocate up to len bytes starting at index start.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_substr_gnl.c"
-else
-	echo "Skipped ft_substr_gnl.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_free_null.c" ]]; then
-	cat > "$DIR/ft_free_null.c" <<'GNL_EXERCISE_EOF'
+cat > 05_ft_free_null.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-void ft_free_null(char **ptr)
+void	ft_free_null(char **ptr)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *p;
-p = malloc(4);
-if (!p) return (1);
-ft_free_null(&p);
-printf("Test 1: %d\n", p == NULL);
-ft_free_null(&p);
-printf("Test 2: %d\n", p == NULL);
-ft_free_null(NULL);
-printf("Test 3: ok\n");
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-free for implementation; test main may use libc.
-
 GOAL:
-Free *ptr and set the caller’s pointer to NULL.
-
-EXPLANATION:
 Free *ptr and set the caller’s pointer to NULL.
 
 TODO:
@@ -398,23 +321,40 @@ EXPECTED OUTPUT:
 Test 1: 1
 Test 2: 1
 Test 3: ok
+*/
 
+int	main(void)
+{
+	char	*result;
+
+	result = malloc(4);
+	if (!result)
+		return (1);
+	ft_free_null(&result);
+	printf("Test 1: %d\n", result == NULL);
+
+	ft_free_null(&result);
+	printf("Test 2: %d\n", result == NULL);
+
+	ft_free_null(NULL);
+	printf("Test 3: ok\n");
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: free *ptr and set the caller’s pointer to NULL.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_free_null.c"
-else
-	echo "Skipped ft_free_null.c (already exists)"
-fi
 
+echo "Reset 6 exercises in 03_strings_and_memory"

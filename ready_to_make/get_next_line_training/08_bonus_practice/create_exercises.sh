@@ -1,112 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$(dirname "$0")" || exit 1
 
-if [[ ! -e "$DIR/ft_multiple_fds.c" ]]; then
-	cat > "$DIR/ft_multiple_fds.c" <<'GNL_EXERCISE_EOF'
+cat > 00_ft_fd_stash.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_multiple_fds(int fd1, int fd2)
+int	ft_fd_stash(int fd, int value)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-int a[2];
-int b[2];
-pipe(a);
-pipe(b);
-write(a[1], "A", 1);
-write(b[1], "B", 1);
-close(a[1]);
-close(b[1]);
-printf("Test 1: %d\n", ft_multiple_fds(a[0], b[0]));
-printf("Test 2: %d\n", ft_multiple_fds(a[0], b[0]));
-close(a[0]);
-close(b[0]);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-read for implementation; test main may use libc.
-
 GOAL:
-Read one byte from each supplied fd; return their unsigned-byte sum.
-
-EXPLANATION:
-Read one byte from each supplied fd; return their unsigned-byte sum.
-
-TODO:
-1. Understand the function contract and test inputs.
-2. Return -1 if either read fails or reaches EOF.
-3. Handle boundaries and errors as documented.
-4. Compare outputs with EXPECTED OUTPUT below.
-
-EXPECTED OUTPUT:
-Test 1: 131
-Test 2: -1
-
-EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
-
-LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
-
-NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
-Keep implementation functions at or below 25 lines and respect 42 Norm.
-*/
-GNL_EXERCISE_EOF
-	echo "Created ft_multiple_fds.c"
-else
-	echo "Skipped ft_multiple_fds.c (already exists)"
-fi
-
-if [[ ! -e "$DIR/ft_fd_stash.c" ]]; then
-	cat > "$DIR/ft_fd_stash.c" <<'GNL_EXERCISE_EOF'
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
-
-int ft_fd_stash(int fd, int value)
-{
-	
-}
-
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", ft_fd_stash(3, 5));
-printf("Test 2: %d\n", ft_fd_stash(4, 7));
-printf("Test 3: %d\n", ft_fd_stash(3, 2));
-printf("Test 4: %d\n", ft_fd_stash(-1, 1));
-return (0);
-}
-
-/*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
-GOAL:
-Keep a separate running total for each fd 0..15.
-
-EXPLANATION:
 Keep a separate running total for each fd 0..15.
 
 TODO:
@@ -120,67 +28,110 @@ Test 1: 5
 Test 2: 7
 Test 3: 7
 Test 4: -1
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", ft_fd_stash(3, 5));
+	printf("Test 2: %d\n", ft_fd_stash(4, 7));
+	printf("Test 3: %d\n", ft_fd_stash(3, 2));
+	printf("Test 4: %d\n", ft_fd_stash(-1, 1));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: keep a separate running total for each fd 0..15.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_fd_stash.c"
-else
-	echo "Skipped ft_fd_stash.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_interleaved_reads.c" ]]; then
-	cat > "$DIR/ft_interleaved_reads.c" <<'GNL_EXERCISE_EOF'
+cat > 01_ft_multiple_fds.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_interleaved_reads(int fd1, int fd2)
+int	ft_multiple_fds(int fd1, int fd2)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
+/*
+GOAL:
+Read one byte from each supplied fd; return their unsigned-byte sum.
 
-int main(void) {
-int a[2];
-int b[2];
-pipe(a);
-pipe(b);
-write(a[1], "abc", 3);
-write(b[1], "XY", 2);
-close(a[1]);
-close(b[1]);
-printf("Test 1: %d\n", ft_interleaved_reads(a[0], b[0]));
-close(a[0]);
-close(b[0]);
-printf("Test 2: %d\n", ft_interleaved_reads(-1, -1));
-return (0);
+TODO:
+1. Understand the function contract and test inputs.
+2. Return -1 if either read fails or reaches EOF.
+3. Handle boundaries and errors as documented.
+4. Compare outputs with EXPECTED OUTPUT below.
+
+EXPECTED OUTPUT:
+Test 1: 131
+Test 2: -1
+*/
+
+int	main(void)
+{
+	int	first_pipe[2];
+	int	second_pipe[2];
+
+	if (pipe(first_pipe) == -1)
+		return (1);
+	if (pipe(second_pipe) == -1)
+		return (close(first_pipe[0]), close(first_pipe[1]), 1);
+	if (write(first_pipe[1], "A", 1) != 1
+		|| write(second_pipe[1], "B", 1) != 1)
+		return (1);
+	close(first_pipe[1]);
+	close(second_pipe[1]);
+
+	printf("Test 1: %d\n", ft_multiple_fds(first_pipe[0], second_pipe[0]));
+	printf("Test 2: %d\n", ft_multiple_fds(first_pipe[0], second_pipe[0]));
+	close(first_pipe[0]);
+	close(second_pipe[0]);
+	return (0);
 }
 
 /*
-ALLOWED FUNCTIONS:
-read for implementation; test main may use libc.
+EDGE CASES:
+Test empty or boundary inputs, failure paths, and ownership relevant to: read one byte from each supplied fd; return their unsigned-byte sum.
 
+LEARNING CHECK:
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
+
+NOTE:
+The function is intentionally empty. Implement it yourself.
+Keep implementation functions at or below 25 lines and respect 42 Norm.
+*/
+GNL_EXERCISE_EOF
+
+cat > 02_ft_interleaved_reads.c <<'GNL_EXERCISE_EOF'
+#include <unistd.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <stdio.h>
+
+int	ft_interleaved_reads(int fd1, int fd2)
+{
+	
+}
+
+/*
 GOAL:
-Read alternating bytes from two fds until both hit EOF.
-
-EXPLANATION:
 Read alternating bytes from two fds until both hit EOF.
 
 TODO:
@@ -192,23 +143,44 @@ TODO:
 EXPECTED OUTPUT:
 Test 1: 5
 Test 2: -1
+*/
 
+int	main(void)
+{
+	int	first_pipe[2];
+	int	second_pipe[2];
+
+	if (pipe(first_pipe) == -1)
+		return (1);
+	if (pipe(second_pipe) == -1)
+		return (close(first_pipe[0]), close(first_pipe[1]), 1);
+	if (write(first_pipe[1], "abc", 3) != 3
+		|| write(second_pipe[1], "XY", 2) != 2)
+		return (1);
+	close(first_pipe[1]);
+	close(second_pipe[1]);
+
+	printf("Test 1: %d\n", ft_interleaved_reads(first_pipe[0], second_pipe[0]));
+	close(first_pipe[0]);
+	close(second_pipe[0]);
+	printf("Test 2: %d\n", ft_interleaved_reads(-1, -1));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: read alternating bytes from two fds until both hit EOF.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_interleaved_reads.c"
-else
-	echo "Skipped ft_interleaved_reads.c (already exists)"
-fi
 
+echo "Reset 3 exercises in 08_bonus_practice"

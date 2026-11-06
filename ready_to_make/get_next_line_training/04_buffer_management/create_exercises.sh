@@ -1,42 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$(dirname "$0")" || exit 1
 
-if [[ ! -e "$DIR/ft_buffer_size.c" ]]; then
-	cat > "$DIR/ft_buffer_size.c" <<'GNL_EXERCISE_EOF'
+cat > 00_ft_buffer_size.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
-
-int ft_buffer_size(void)
+int	ft_buffer_size(void)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", ft_buffer_size());
-printf("Test 2: %d\n", ft_buffer_size());
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Return the configured BUFFER_SIZE (or a fallback of 42).
-
-EXPLANATION:
 Return the configured BUFFER_SIZE (or a fallback of 42).
 
 TODO:
@@ -48,59 +26,44 @@ TODO:
 EXPECTED OUTPUT:
 Test 1: 42
 Test 2: 42
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", ft_buffer_size());
+	printf("Test 2: %d\n", ft_buffer_size());
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: return the configured BUFFER_SIZE (or a fallback of 42).
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_buffer_size.c"
-else
-	echo "Skipped ft_buffer_size.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_find_newline.c" ]]; then
-	cat > "$DIR/ft_find_newline.c" <<'GNL_EXERCISE_EOF'
+cat > 01_ft_find_newline.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-int ft_find_newline(const char *str)
+int	ft_find_newline(const char *str)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-printf("Test 1: %d\n", ft_find_newline("abc\ndef"));
-printf("Test 2: %d\n", ft_find_newline("no newline"));
-printf("Test 3: %d\n", ft_find_newline("\n"));
-printf("Test 4: %d\n", ft_find_newline(NULL));
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-none for implementation; test main may use libc.
-
 GOAL:
-Find the index of the first newline, or -1 when absent.
-
-EXPLANATION:
 Find the index of the first newline, or -1 when absent.
 
 TODO:
@@ -114,75 +77,46 @@ Test 1: 3
 Test 2: -1
 Test 3: 0
 Test 4: -1
+*/
 
+int	main(void)
+{
+	printf("Test 1: %d\n", ft_find_newline("abc\ndef"));
+	printf("Test 2: %d\n", ft_find_newline("no newline"));
+	printf("Test 3: %d\n", ft_find_newline("\n"));
+	printf("Test 4: %d\n", ft_find_newline(NULL));
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: find the index of the first newline, or -1 when absent.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_find_newline.c"
-else
-	echo "Skipped ft_find_newline.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_append_buffer.c" ]]; then
-	cat > "$DIR/ft_append_buffer.c" <<'GNL_EXERCISE_EOF'
+cat > 02_ft_append_buffer.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_append_buffer(char *stash, const char *buffer)
+char	*ft_append_buffer(char *stash, const char *buffer)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *s;
-char *next;
-s = malloc(3);
-if (!s) return (1);
-s[0] = 'H';
-s[1] = 'i';
-s[2] = 0;
-next = ft_append_buffer(s, "!");
-if (!next) {
-free(s);
-return (1);
-}
-printf("Test 1: [%s]\n", next);
-s = ft_append_buffer(next, "\n");
-if (!s) {
-free(next);
-return (1);
-}
-printf("Test 2: [%s]", s);
-free(s);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-malloc, free for implementation; test main may use libc.
-
 GOAL:
-Append buffer to a heap-allocated stash, returning a new allocation.
-
-EXPLANATION:
 Append buffer to a heap-allocated stash, returning a new allocation.
 
 TODO:
@@ -195,63 +129,75 @@ EXPECTED OUTPUT:
 Test 1: [Hi!]
 Test 2: [Hi!
 ]
+*/
 
+static char	*test_first_append(void)
+{
+	char	*stash;
+	char	*result;
+
+	stash = malloc(3);
+	if (!stash)
+		return (NULL);
+	stash[0] = 'H';
+	stash[1] = 'i';
+	stash[2] = '\0';
+	result = ft_append_buffer(stash, "!");
+	if (!result)
+		free(stash);
+	return (result);
+}
+
+int	main(void)
+{
+	char	*stash;
+	char	*result;
+
+	stash = test_first_append();
+	if (!stash)
+		return (1);
+	printf("Test 1: [%s]\n", stash);
+
+	result = ft_append_buffer(stash, "\n");
+	if (!result)
+	{
+		free(stash);
+		return (1);
+	}
+	printf("Test 2: [%s]", result);
+	free(result);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+The heap-allocated stash changes ownership on success; keep the original on allocation failure.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. Who owns the old stash before the call?
+2. When should it be freed?
+3. How much memory is needed for the joined string?
+4. What does the caller do if allocation fails?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_append_buffer.c"
-else
-	echo "Skipped ft_append_buffer.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_extract_line.c" ]]; then
-	cat > "$DIR/ft_extract_line.c" <<'GNL_EXERCISE_EOF'
+cat > 03_ft_extract_line.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_extract_line(const char *stash)
+char	*ft_extract_line(const char *stash)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *p;
-p = ft_extract_line("Hello\nWorld");
-printf("Test 1: [%s]", p ? p : "NULL");
-free(p);
-p = ft_extract_line("tail");
-printf("Test 2: [%s]\n", p ? p : "NULL");
-free(p);
-printf("Test 3: %d\n", ft_extract_line("") == NULL);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-malloc, free for implementation; test main may use libc.
-
 GOAL:
-Copy through the first newline, or all of stash if no newline.
-
-EXPLANATION:
 Copy through the first newline, or all of stash if no newline.
 
 TODO:
@@ -264,65 +210,53 @@ EXPECTED OUTPUT:
 Test 1: [Hello
 ]Test 2: [tail]
 Test 3: 1
+*/
 
+int	main(void)
+{
+	char	*result;
+
+	result = ft_extract_line("Hello\nWorld");
+	printf("Test 1: [%s]", result ? result : "NULL");
+	free(result);
+
+	result = ft_extract_line("tail");
+	printf("Test 2: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	printf("Test 3: %d\n", ft_extract_line("") == NULL);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: copy through the first newline, or all of stash if no newline.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_extract_line.c"
-else
-	echo "Skipped ft_extract_line.c (already exists)"
-fi
 
-if [[ ! -e "$DIR/ft_save_remainder.c" ]]; then
-	cat > "$DIR/ft_save_remainder.c" <<'GNL_EXERCISE_EOF'
+cat > 04_ft_save_remainder.c <<'GNL_EXERCISE_EOF'
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <limits.h>
 #include <stddef.h>
-#include <stdint.h>
+#include <stdio.h>
 
-char *ft_save_remainder(const char *stash)
+char	*ft_save_remainder(const char *stash)
 {
 	
 }
 
-#include <stdio.h>
-#include <string.h>
-
-int main(void) {
-char *p;
-p = ft_save_remainder("Hello\nWorld");
-printf("Test 1: [%s]\n", p ? p : "NULL");
-free(p);
-p = ft_save_remainder("Hello\n");
-printf("Test 2: %d\n", p == NULL);
-free(p);
-p = ft_save_remainder("Hello");
-printf("Test 3: %d\n", p == NULL);
-free(p);
-return (0);
-}
-
 /*
-ALLOWED FUNCTIONS:
-malloc, free for implementation; test main may use libc.
-
 GOAL:
-Copy characters after the first newline into a new allocation.
-
-EXPLANATION:
 Copy characters after the first newline into a new allocation.
 
 TODO:
@@ -335,23 +269,40 @@ EXPECTED OUTPUT:
 Test 1: [World]
 Test 2: 1
 Test 3: 1
+*/
 
+int	main(void)
+{
+	char	*result;
+
+	result = ft_save_remainder("Hello\nWorld");
+	printf("Test 1: [%s]\n", result ? result : "NULL");
+	free(result);
+
+	result = ft_save_remainder("Hello\n");
+	printf("Test 2: %d\n", result == NULL);
+	free(result);
+
+	result = ft_save_remainder("Hello");
+	printf("Test 3: %d\n", result == NULL);
+	free(result);
+	return (0);
+}
+
+/*
 EDGE CASES:
-Inspect empty inputs, EOF, failures, and allocation ownership where relevant.
+Test empty or boundary inputs, failure paths, and ownership relevant to: copy characters after the first newline into a new allocation.
 
 LEARNING CHECK:
-1. What does each parameter represent?
-2. What changes between calls?
-3. Who must free any returned allocation?
-4. Which test exposes an off-by-one error?
+1. What does the function return for a normal input?
+2. How should this function handle an empty or invalid input?
+3. What state or memory changes between calls?
+4. Which boundary condition should you test next?
 
 NOTE:
-Function intentionally empty. Complete it before compiling with -Werror.
+The function is intentionally empty. Implement it yourself.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 GNL_EXERCISE_EOF
-	echo "Created ft_save_remainder.c"
-else
-	echo "Skipped ft_save_remainder.c (already exists)"
-fi
 
+echo "Reset 5 exercises in 04_buffer_management"
