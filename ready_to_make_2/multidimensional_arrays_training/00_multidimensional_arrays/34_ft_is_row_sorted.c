@@ -23,15 +23,13 @@ Test 3: 1
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 2},
-			{4, 3, 6},
-			{-2, 0, 5}
-		};
+		{1, 2, 2},
+		{4, 3, 6},
+		{-2, 0, 5}
+	};
 
 	printf("Test 1: %d\n", ft_is_row_sorted(grid, 0));
-	
 	printf("Test 2: %d\n", ft_is_row_sorted(grid, 1));
-	
 	printf("Test 3: %d\n", ft_is_row_sorted(grid, 2));
 	return (0);
 }
@@ -47,7 +45,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */

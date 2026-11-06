@@ -15,22 +15,56 @@ TODO:
 3. Store each result in out.
 
 EXPECTED OUTPUT:
+Input A:
+{1, 2},
+{3, 4},
+Input B:
+{5, 6},
+{7, 8},
+
+After:
+{19, 22},
+{43, 50},
 Test 1: 19 22
 Test 2: 43 50
 */
 
+static void	ft_test_print_matrix(int grid[2][2]);
+
 int	main(void)
 {
-	int	a[2][2] = {{1, 2}, {3, 4}};
-	int	b[2][2] = {{5, 6}, {7, 8}};
+	int	a[2][2] = {
+		{1, 2},
+		{3, 4}
+	};
+	int	b[2][2] = {
+		{5, 6},
+		{7, 8}
+	};
 	int	out[2][2] = {{0}};
 
+	printf("Input A:\n");
+	ft_test_print_matrix(a);
+	printf("Input B:\n");
+	ft_test_print_matrix(b);
 	ft_multiply_matrices(a, b, out);
-	
+	printf("\nAfter:\n");
+	ft_test_print_matrix(out);
 	printf("Test 1: %d %d\n", out[0][0], out[0][1]);
-	
 	printf("Test 2: %d %d\n", out[1][0], out[1][1]);
 	return (0);
+}
+
+static void	ft_test_print_matrix(int grid[2][2])
+{
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		printf("{%d, %d},\n", grid[i][0], grid[i][1]);
+		i++;
+	}
 }
 
 /*
@@ -44,7 +78,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */

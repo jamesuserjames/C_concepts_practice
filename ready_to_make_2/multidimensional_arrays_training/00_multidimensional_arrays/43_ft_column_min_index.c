@@ -22,13 +22,12 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{5, -2, 0},
-			{3, -3, 4},
-			{3, -3, 7}
-		};
+		{5, -2, 0},
+		{3, -3, 4},
+		{3, -3, 7}
+	};
 
 	printf("Test 1: %d\n", ft_column_min_index(grid, 0));
-	
 	printf("Test 2: %d\n", ft_column_min_index(grid, 2));
 	return (0);
 }
@@ -44,7 +43,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */

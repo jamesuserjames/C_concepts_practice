@@ -42,3 +42,7 @@ rm test.out
 ## 📚 Final Project
 
 The advanced exercises combine traversal, transformations, and 3D indexing. This pack is general multidimensional-array practice, **not Rush01**.
+
+## Expected output
+
+Each exercise includes an `EXPECTED OUTPUT` block that matches the completed test program, including matrix layouts, labels, and blank lines. The exercises themselves may start empty; implement them before comparing output.

@@ -17,21 +17,19 @@ TODO:
 EXPECTED OUTPUT:
 Test 1: 4
 Test 2: 0
-Test 3: 2
+Test 3: 3
 */
 
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{2, 3, 2},
-			{1, 2, 1}
-		};
+		{1, 2, 3},
+		{2, 3, 2},
+		{1, 2, 1}
+	};
 
 	printf("Test 1: %d\n", ft_count_value(grid, 2));
-	
 	printf("Test 2: %d\n", ft_count_value(grid, 9));
-	
 	printf("Test 3: %d\n", ft_count_value(grid, 1));
 	return (0);
 }
@@ -47,7 +45,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */

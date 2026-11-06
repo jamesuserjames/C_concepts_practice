@@ -5,6 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")" || exit 1
 
 cat > 00_ft_print_grid.c <<'EOF'
+#include <unistd.h>
 #include <stdio.h>
 
 void	ft_print_grid(int grid[3][3])
@@ -31,13 +32,13 @@ Test 1:
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1:\n");
-	
+	fflush(stdout);
 	ft_print_grid(grid);
 	return (0);
 }
@@ -53,13 +54,14 @@ LEARNING CHECK:
 4. How are its rows laid out in memory?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 EOF
 
 cat > 01_ft_print_row.c <<'EOF'
+#include <unistd.h>
 #include <stdio.h>
 
 void	ft_print_row(int grid[3][3], int row)
@@ -86,17 +88,16 @@ Test 2:
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1:\n");
-	
+	fflush(stdout);
 	ft_print_row(grid, 1);
-	
 	printf("Test 2:\n");
-	
+	fflush(stdout);
 	ft_print_row(grid, 2);
 	return (0);
 }
@@ -112,13 +113,14 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 EOF
 
 cat > 02_ft_print_column.c <<'EOF'
+#include <unistd.h>
 #include <stdio.h>
 
 void	ft_print_column(int grid[3][3], int col)
@@ -149,17 +151,16 @@ Test 2:
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1:\n");
-	
+	fflush(stdout);
 	ft_print_column(grid, 1);
-	
 	printf("Test 2:\n");
-	
+	fflush(stdout);
 	ft_print_column(grid, 2);
 	return (0);
 }
@@ -175,7 +176,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -207,15 +208,13 @@ Test 3: 9
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_get_value(grid, 1, 2));
-	
 	printf("Test 2: %d\n", ft_get_value(grid, 0, 0));
-	
 	printf("Test 3: %d\n", ft_get_value(grid, 2, 2));
 	return (0);
 }
@@ -231,7 +230,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -255,29 +254,60 @@ TODO:
 3. Leave other elements unchanged.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After change 1:
+{1, 2, 3},
+{4, 5, 42},
+{7, 8, 9},
 Test 1: 42
+
+After change 2:
+{-7, 2, 3},
+{4, 5, 42},
+{7, 8, 9},
 Test 2: -7
 Test 3: 5
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_set_value(grid, 1, 2, 42);
-	
+	printf("\nAfter change 1:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d\n", grid[1][2]);
-	
 	ft_set_value(grid, 0, 0, -7);
-	
+	printf("\nAfter change 2:\n");
+	ft_test_print_grid(grid);
 	printf("Test 2: %d\n", grid[0][0]);
-	
 	printf("Test 3: %d\n", grid[1][1]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -291,7 +321,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -315,26 +345,58 @@ TODO:
 3. Store value in every cell.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After change 1:
+{7, 7, 7},
+{7, 7, 7},
+{7, 7, 7},
 Test 1: 7 7 7
+
+After change 2:
+{0, 0, 0},
+{0, 0, 0},
+{0, 0, 0},
 Test 2: 0 0 0
 */
+
+static void	ft_test_print_grid(int grid[3][3]);
 
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_fill_grid(grid, 7);
-	
+	printf("\nAfter change 1:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[0][0], grid[1][1], grid[2][2]);
-	
 	ft_fill_grid(grid, 0);
-	
+	printf("\nAfter change 2:\n");
+	ft_test_print_grid(grid);
 	printf("Test 2: %d %d %d\n", grid[0][2], grid[1][0], grid[2][1]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -348,13 +410,14 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 EOF
 
 cat > 06_ft_print_rectangle.c <<'EOF'
+#include <unistd.h>
 #include <stdio.h>
 
 void	ft_print_rectangle(int grid[2][3])
@@ -380,12 +443,12 @@ Test 1:
 int	main(void)
 {
 	int	grid[2][3] = {
-			{1, 2, 3},
-			{4, 5, 6}
-		};
+		{1, 2, 3},
+		{4, 5, 6}
+	};
 
 	printf("Test 1:\n");
-	
+	fflush(stdout);
 	ft_print_rectangle(grid);
 	return (0);
 }
@@ -401,7 +464,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -429,6 +492,22 @@ Test 1: 45
 Test 2: 0
 */
 
+static void	ft_zero_for_test(int grid[3][3]);
+
+int	main(void)
+{
+	int	grid[3][3] = {
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
+
+	printf("Test 1: %d\n", ft_sum_grid(grid));
+	ft_zero_for_test(grid);
+	printf("Test 2: %d\n", ft_sum_grid(grid));
+	return (0);
+}
+
 static void	ft_zero_for_test(int grid[3][3])
 {
 	int	row;
@@ -444,22 +523,6 @@ static void	ft_zero_for_test(int grid[3][3])
 	}
 }
 
-int	main(void)
-{
-	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
-
-	printf("Test 1: %d\n", ft_sum_grid(grid));
-	
-	ft_zero_for_test(grid);
-	
-	printf("Test 2: %d\n", ft_sum_grid(grid));
-	return (0);
-}
-
 /*
 EDGE CASES:
 All-zero matrices must produce zero. The test-only helper resets the grid.
@@ -471,7 +534,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -502,17 +565,14 @@ Test 2: 7
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_count_nonzero(grid));
-	
 	grid[0][0] = 0;
-	
 	grid[2][2] = 0;
-	
 	printf("Test 2: %d\n", ft_count_nonzero(grid));
 	return (0);
 }
@@ -528,7 +588,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -552,26 +612,58 @@ TODO:
 3. Store the saved value in the second cell.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After change 1:
+{9, 2, 3},
+{4, 5, 6},
+{7, 8, 1},
 Test 1: 9 1
+
+After change 2:
+{9, 2, 3},
+{4, 5, 6},
+{7, 8, 1},
 Test 2: 5
 */
+
+static void	ft_test_print_grid(int grid[3][3]);
 
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_swap_cells(grid, 0, 0, 2, 2);
-	
+	printf("\nAfter change 1:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d\n", grid[0][0], grid[2][2]);
-	
 	ft_swap_cells(grid, 1, 1, 1, 1);
-	
+	printf("\nAfter change 2:\n");
+	ft_test_print_grid(grid);
 	printf("Test 2: %d\n", grid[1][1]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -585,7 +677,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -616,13 +708,12 @@ Test 2: 24
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_sum_row(grid, 0));
-	
 	printf("Test 2: %d\n", ft_sum_row(grid, 2));
 	return (0);
 }
@@ -638,7 +729,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -669,13 +760,12 @@ Test 2: 18
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_sum_column(grid, 0));
-	
 	printf("Test 2: %d\n", ft_sum_column(grid, 2));
 	return (0);
 }
@@ -691,7 +781,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -719,6 +809,22 @@ Test 1: 9
 Test 2: -1
 */
 
+static void	ft_set_negative_for_test(int grid[3][3]);
+
+int	main(void)
+{
+	int	grid[3][3] = {
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
+
+	printf("Test 1: %d\n", ft_max_grid(grid));
+	ft_set_negative_for_test(grid);
+	printf("Test 2: %d\n", ft_max_grid(grid));
+	return (0);
+}
+
 static void	ft_set_negative_for_test(int grid[3][3])
 {
 	int	row;
@@ -734,22 +840,6 @@ static void	ft_set_negative_for_test(int grid[3][3])
 	}
 }
 
-int	main(void)
-{
-	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
-
-	printf("Test 1: %d\n", ft_max_grid(grid));
-	
-	ft_set_negative_for_test(grid);
-	
-	printf("Test 2: %d\n", ft_max_grid(grid));
-	return (0);
-}
-
 /*
 EDGE CASES:
 An all-negative grid must not incorrectly return zero.
@@ -761,7 +851,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -792,15 +882,13 @@ Test 2: -8
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_min_grid(grid));
-	
 	grid[2][1] = -8;
-	
 	printf("Test 2: %d\n", ft_min_grid(grid));
 	return (0);
 }
@@ -816,7 +904,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -842,21 +930,19 @@ TODO:
 EXPECTED OUTPUT:
 Test 1: 4
 Test 2: 0
-Test 3: 2
+Test 3: 3
 */
 
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{2, 3, 2},
-			{1, 2, 1}
-		};
+		{1, 2, 3},
+		{2, 3, 2},
+		{1, 2, 1}
+	};
 
 	printf("Test 1: %d\n", ft_count_value(grid, 2));
-	
 	printf("Test 2: %d\n", ft_count_value(grid, 9));
-	
 	printf("Test 3: %d\n", ft_count_value(grid, 1));
 	return (0);
 }
@@ -872,7 +958,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -896,26 +982,23 @@ TODO:
 3. Store coordinates and return 1, or return 0 if absent.
 
 EXPECTED OUTPUT:
-Test 1: 1 (1, 0)
+Test 1: 1 (0, 1)
 Test 2: 0
 */
 
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{2, 3, 2},
-			{1, 2, 1}
-		};
+		{1, 2, 3},
+		{2, 3, 2},
+		{1, 2, 1}
+	};
 	int	row = -1;
 	int	col = -1;
 
 	printf("Test 1: ");
-	
 	if (ft_find_value(grid, 2, &row, &col))
-	
 		printf("1 (%d, %d)\n", row, col);
-	
 	printf("Test 2: %d\n", ft_find_value(grid, 9, &row, &col));
 	return (0);
 }
@@ -931,7 +1014,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -962,15 +1045,13 @@ Test 2: 13
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_sum_diagonal(grid));
-	
 	grid[1][1] = 3;
-	
 	printf("Test 2: %d\n", ft_sum_diagonal(grid));
 	return (0);
 }
@@ -986,7 +1067,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1017,15 +1098,13 @@ Test 2: 20
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_sum_antidiagonal(grid));
-	
 	grid[0][2] = 8;
-	
 	printf("Test 2: %d\n", ft_sum_antidiagonal(grid));
 	return (0);
 }
@@ -1041,7 +1120,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1072,15 +1151,13 @@ Test 2: 40
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_sum_border(grid));
-	
 	grid[1][1] = 999;
-	
 	printf("Test 2: %d\n", ft_sum_border(grid));
 	return (0);
 }
@@ -1096,7 +1173,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1127,15 +1204,13 @@ Test 2: 6
 int	main(void)
 {
 	int	grid[3][3] = {
-			{-1, 0, 2},
-			{3, -4, 5},
-			{0, 6, 7}
-		};
+		{-1, 0, 2},
+		{3, -4, 5},
+		{0, 6, 7}
+	};
 
 	printf("Test 1: %d\n", ft_count_positive(grid));
-	
 	grid[0][1] = 8;
-	
 	printf("Test 2: %d\n", ft_count_positive(grid));
 	return (0);
 }
@@ -1151,7 +1226,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1175,27 +1250,52 @@ TODO:
 3. Do not alter the source.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
 Test 1: 1 5 9
 Test 2: 1
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	dest[3][3] = {{0}};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_copy_grid(grid, dest);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(dest);
 	printf("Test 1: %d %d %d\n", dest[0][0], dest[1][1], dest[2][2]);
-	
 	dest[0][0] = 42;
-	
 	printf("Test 2: %d\n", grid[0][0]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1209,7 +1309,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1240,18 +1340,16 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	other[3][3] = {
-			{1, 2, 3}, {4, 5, 6}, {7, 8, 9}
-		};
+	{1, 2, 3}, {4, 5, 6}, {7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_compare_grids(grid, other));
-	
 	other[2][2] = -9;
-	
 	printf("Test 2: %d\n", ft_compare_grids(grid, other));
 	return (0);
 }
@@ -1267,7 +1365,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1291,25 +1389,51 @@ TODO:
 3. Preserve the source matrix.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{1, 4, 7},
+{2, 5, 8},
+{3, 6, 9},
 Test 1: 1 4 7
 Test 2: 3 6 9
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	dest[3][3] = {{0}};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_transpose_grid(grid, dest);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(dest);
 	printf("Test 1: %d %d %d\n", dest[0][0], dest[0][1], dest[0][2]);
-	
 	printf("Test 2: %d %d %d\n", dest[2][0], dest[2][1], dest[2][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1323,7 +1447,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1347,24 +1471,50 @@ TODO:
 3. Stop at the middle.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{1, 2, 3},
+{6, 5, 4},
+{7, 8, 9},
 Test 1: 6 5 4
 Test 2: 1 2 3
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_reverse_row(grid, 1);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[1][0], grid[1][1], grid[1][2]);
-	
 	printf("Test 2: %d %d %d\n", grid[0][0], grid[0][1], grid[0][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1378,7 +1528,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1402,24 +1552,50 @@ TODO:
 3. Stop at the middle.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{1, 8, 3},
+{4, 5, 6},
+{7, 2, 9},
 Test 1: 8 5 2
 Test 2: 1 4 7
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_reverse_column(grid, 1);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[0][1], grid[1][1], grid[2][1]);
-	
 	printf("Test 2: %d %d %d\n", grid[0][0], grid[1][0], grid[2][0]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1433,7 +1609,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1457,24 +1633,50 @@ TODO:
 3. Keep the center column unchanged.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{3, 2, 1},
+{6, 5, 4},
+{9, 8, 7},
 Test 1: 3 2 1
 Test 2: 9 8 7
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_flip_horizontal(grid);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[0][0], grid[0][1], grid[0][2]);
-	
 	printf("Test 2: %d %d %d\n", grid[2][0], grid[2][1], grid[2][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1488,7 +1690,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1512,24 +1714,50 @@ TODO:
 3. Keep the center row unchanged.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{7, 8, 9},
+{4, 5, 6},
+{1, 2, 3},
 Test 1: 7 8 9
 Test 2: 1 2 3
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_flip_vertical(grid);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[0][0], grid[0][1], grid[0][2]);
-	
 	printf("Test 2: %d %d %d\n", grid[2][0], grid[2][1], grid[2][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1543,7 +1771,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1567,25 +1795,51 @@ TODO:
 3. Verify the first and last rows.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{7, 4, 1},
+{8, 5, 2},
+{9, 6, 3},
 Test 1: 7 4 1
 Test 2: 9 6 3
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	dest[3][3] = {{0}};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_rotate_clockwise(grid, dest);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(dest);
 	printf("Test 1: %d %d %d\n", dest[0][0], dest[0][1], dest[0][2]);
-	
 	printf("Test 2: %d %d %d\n", dest[2][0], dest[2][1], dest[2][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1599,7 +1853,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1623,25 +1877,51 @@ TODO:
 3. Preserve the source.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{3, 6, 9},
+{2, 5, 8},
+{1, 4, 7},
 Test 1: 3 6 9
 Test 2: 1 4 7
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	dest[3][3] = {{0}};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_rotate_counterclockwise(grid, dest);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(dest);
 	printf("Test 1: %d %d %d\n", dest[0][0], dest[0][1], dest[0][2]);
-	
 	printf("Test 2: %d %d %d\n", dest[2][0], dest[2][1], dest[2][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1655,7 +1935,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1679,24 +1959,50 @@ TODO:
 3. Set every selected element to zero.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{1, 2, 3},
+{4, 5, 6},
+{0, 0, 0},
 Test 1: 0 0 0
 Test 2: 1 2 3
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_zero_row(grid, 2);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[2][0], grid[2][1], grid[2][2]);
-	
 	printf("Test 2: %d %d %d\n", grid[0][0], grid[0][1], grid[0][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -1710,7 +2016,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1741,15 +2047,13 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 0, 0},
-			{0, 1, 0},
-			{0, 0, 1}
-		};
+		{1, 0, 0},
+		{0, 1, 0},
+		{0, 0, 1}
+	};
 
 	printf("Test 1: %d\n", ft_is_identity(grid));
-	
 	grid[0][1] = 4;
-	
 	printf("Test 2: %d\n", ft_is_identity(grid));
 	return (0);
 }
@@ -1765,7 +2069,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1796,15 +2100,13 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{2, 4, 5},
-			{3, 5, 6}
-		};
+		{1, 2, 3},
+		{2, 4, 5},
+		{3, 5, 6}
+	};
 
 	printf("Test 1: %d\n", ft_is_symmetric(grid));
-	
 	grid[2][0] = -1;
-	
 	printf("Test 2: %d\n", ft_is_symmetric(grid));
 	return (0);
 }
@@ -1820,7 +2122,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1851,15 +2153,13 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{2, 0, 0},
-			{0, -3, 0},
-			{0, 0, 5}
-		};
+		{2, 0, 0},
+		{0, -3, 0},
+		{0, 0, 5}
+	};
 
 	printf("Test 1: %d\n", ft_is_diagonal(grid));
-	
 	grid[1][2] = 1;
-	
 	printf("Test 2: %d\n", ft_is_diagonal(grid));
 	return (0);
 }
@@ -1875,7 +2175,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1906,15 +2206,13 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{0, 4, 5},
-			{0, 0, 6}
-		};
+		{1, 2, 3},
+		{0, 4, 5},
+		{0, 0, 6}
+	};
 
 	printf("Test 1: %d\n", ft_is_upper_triangular(grid));
-	
 	grid[2][0] = 9;
-	
 	printf("Test 2: %d\n", ft_is_upper_triangular(grid));
 	return (0);
 }
@@ -1930,7 +2228,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -1962,15 +2260,13 @@ Test 3: 1
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 2},
-			{4, 3, 6},
-			{-2, 0, 5}
-		};
+		{1, 2, 2},
+		{4, 3, 6},
+		{-2, 0, 5}
+	};
 
 	printf("Test 1: %d\n", ft_is_row_sorted(grid, 0));
-	
 	printf("Test 2: %d\n", ft_is_row_sorted(grid, 1));
-	
 	printf("Test 3: %d\n", ft_is_row_sorted(grid, 2));
 	return (0);
 }
@@ -1986,7 +2282,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2017,13 +2313,12 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 7, 3},
-			{2, 4, 4},
-			{3, 5, 5}
-		};
+		{1, 7, 3},
+		{2, 4, 4},
+		{3, 5, 5}
+	};
 
 	printf("Test 1: %d\n", ft_is_column_sorted(grid, 0));
-	
 	printf("Test 2: %d\n", ft_is_column_sorted(grid, 1));
 	return (0);
 }
@@ -2039,7 +2334,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2070,13 +2365,12 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 1},
-			{3, 4, 5},
-			{6, 7, 8}
-		};
+		{1, 2, 1},
+		{3, 4, 5},
+		{6, 7, 8}
+	};
 
 	printf("Test 1: %d\n", ft_row_has_duplicate(grid, 0));
-	
 	printf("Test 2: %d\n", ft_row_has_duplicate(grid, 1));
 	return (0);
 }
@@ -2092,7 +2386,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2116,28 +2410,54 @@ TODO:
 3. Write each sum into out.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{10, 10, 10},
+{10, 10, 10},
+{10, 10, 10},
 Test 1: 10 10 10
 Test 2: 10
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	b[3][3] = {
-			{9, 8, 7}, {6, 5, 4}, {3, 2, 1}
-		};
+	{9, 8, 7}, {6, 5, 4}, {3, 2, 1}
+	};
 	int	out[3][3] = {{0}};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_add_matrices(grid, b, out);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(out);
 	printf("Test 1: %d %d %d\n", out[0][0], out[1][1], out[2][2]);
-	
 	printf("Test 2: %d\n", out[0][1]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -2151,7 +2471,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2175,28 +2495,54 @@ TODO:
 3. Write the result to out.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{0, -1, 3},
+{0, -1, 0},
+{0, 0, 8},
 Test 1: 0 -1 8
 Test 2: 0
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	b[3][3] = {
-			{1, 3, 0}, {4, 6, 6}, {7, 8, 1}
-		};
+	{1, 3, 0}, {4, 6, 6}, {7, 8, 1}
+	};
 	int	out[3][3] = {{0}};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_subtract_matrices(grid, b, out);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(out);
 	printf("Test 1: %d %d %d\n", out[0][0], out[1][1], out[2][2]);
-	
 	printf("Test 2: %d\n", out[1][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -2210,7 +2556,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2234,26 +2580,58 @@ TODO:
 3. Store the product in the same cell.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After change 1:
+{-2, -4, -6},
+{-8, -10, -12},
+{-14, -16, -18},
 Test 1: -2 -10 -18
+
+After change 2:
+{0, 0, 0},
+{0, 0, 0},
+{0, 0, 0},
 Test 2: 0 0
 */
+
+static void	ft_test_print_grid(int grid[3][3]);
 
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_scale_matrix(grid, -2);
-	
+	printf("\nAfter change 1:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[0][0], grid[1][1], grid[2][2]);
-	
 	ft_scale_matrix(grid, 0);
-	
+	printf("\nAfter change 2:\n");
+	ft_test_print_grid(grid);
 	printf("Test 2: %d %d\n", grid[0][1], grid[2][0]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -2267,7 +2645,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2291,22 +2669,56 @@ TODO:
 3. Store each result in out.
 
 EXPECTED OUTPUT:
+Input A:
+{1, 2},
+{3, 4},
+Input B:
+{5, 6},
+{7, 8},
+
+After:
+{19, 22},
+{43, 50},
 Test 1: 19 22
 Test 2: 43 50
 */
 
+static void	ft_test_print_matrix(int grid[2][2]);
+
 int	main(void)
 {
-	int	a[2][2] = {{1, 2}, {3, 4}};
-	int	b[2][2] = {{5, 6}, {7, 8}};
+	int	a[2][2] = {
+		{1, 2},
+		{3, 4}
+	};
+	int	b[2][2] = {
+		{5, 6},
+		{7, 8}
+	};
 	int	out[2][2] = {{0}};
 
+	printf("Input A:\n");
+	ft_test_print_matrix(a);
+	printf("Input B:\n");
+	ft_test_print_matrix(b);
 	ft_multiply_matrices(a, b, out);
-	
+	printf("\nAfter:\n");
+	ft_test_print_matrix(out);
 	printf("Test 1: %d %d\n", out[0][0], out[0][1]);
-	
 	printf("Test 2: %d %d\n", out[1][0], out[1][1]);
 	return (0);
+}
+
+static void	ft_test_print_matrix(int grid[2][2])
+{
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		printf("{%d, %d},\n", grid[i][0], grid[i][1]);
+		i++;
+	}
 }
 
 /*
@@ -2320,7 +2732,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2351,15 +2763,13 @@ Test 2: 10
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 
 	printf("Test 1: %d\n", ft_trace(grid));
-	
 	grid[2][2] = 4;
-	
 	printf("Test 2: %d\n", ft_trace(grid));
 	return (0);
 }
@@ -2375,7 +2785,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2406,13 +2816,12 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{3, 9, 9},
-			{8, 2, 1},
-			{1, 2, 3}
-		};
+		{3, 9, 9},
+		{8, 2, 1},
+		{1, 2, 3}
+	};
 
 	printf("Test 1: %d\n", ft_row_max_index(grid, 0));
-	
 	printf("Test 2: %d\n", ft_row_max_index(grid, 1));
 	return (0);
 }
@@ -2428,7 +2837,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2459,13 +2868,12 @@ Test 2: 0
 int	main(void)
 {
 	int	grid[3][3] = {
-			{5, -2, 0},
-			{3, -3, 4},
-			{3, -3, 7}
-		};
+		{5, -2, 0},
+		{3, -3, 4},
+		{3, -3, 7}
+	};
 
 	printf("Test 1: %d\n", ft_column_min_index(grid, 0));
-	
 	printf("Test 2: %d\n", ft_column_min_index(grid, 2));
 	return (0);
 }
@@ -2481,7 +2889,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2512,13 +2920,12 @@ Test 2: 2
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 1, 1},
-			{1, 0, 1},
-			{1, 1, 1}
-		};
+		{1, 1, 1},
+		{1, 0, 1},
+		{1, 1, 1}
+	};
 
 	printf("Test 1: %d\n", ft_count_neighbors(grid, 1, 1));
-	
 	printf("Test 2: %d\n", ft_count_neighbors(grid, 0, 0));
 	return (0);
 }
@@ -2534,7 +2941,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2558,24 +2965,50 @@ TODO:
 3. Stop at borders, other colors, and already recolored cells.
 
 EXPECTED OUTPUT:
+Before:
+{1, 1, 0},
+{1, 0, 0},
+{0, 0, 1},
+
+After:
+{9, 9, 0},
+{9, 0, 0},
+{0, 0, 1},
 Test 1: 9 9 9
 Test 2: 0 1
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 1, 0},
-			{1, 0, 0},
-			{0, 0, 1}
-		};
+		{1, 1, 0},
+		{1, 0, 0},
+		{0, 0, 1}
+	};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_flood_fill(grid, 0, 0, 9);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(grid);
 	printf("Test 1: %d %d %d\n", grid[0][0], grid[0][1], grid[1][0]);
-	
 	printf("Test 2: %d %d\n", grid[1][1], grid[2][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -2589,7 +3022,7 @@ LEARNING CHECK:
 4. What happens if new color equals old color?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2619,29 +3052,21 @@ Test 1: 1 2 3 6 9 8 7 4 5
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	out[9] = {0};
 	int	i;
 
 	ft_spiral_order(grid, out);
-	
 	printf("Test 1:");
-	
 	i = 0;
-	
 	while (i < 9)
-	
 	{
-	
 		printf(" %d", out[i]);
-	
 		i++;
-	
 	}
-	
 	printf("\n");
 	return (0);
 }
@@ -2657,7 +3082,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2685,6 +3110,25 @@ Test 1: 5
 Test 2: 45
 */
 
+static void	ft_set_kernel_ones(int kernel[3][3]);
+
+int	main(void)
+{
+	int	grid[3][3] = {
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
+	int	kernel[3][3] = {
+	{0, 0, 0}, {0, 1, 0}, {0, 0, 0}
+	};
+
+	printf("Test 1: %d\n", ft_convolve_center(grid, kernel));
+	ft_set_kernel_ones(kernel);
+	printf("Test 2: %d\n", ft_convolve_center(grid, kernel));
+	return (0);
+}
+
 static void	ft_set_kernel_ones(int kernel[3][3])
 {
 	int	row;
@@ -2700,25 +3144,6 @@ static void	ft_set_kernel_ones(int kernel[3][3])
 	}
 }
 
-int	main(void)
-{
-	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
-	int	kernel[3][3] = {
-			{0, 0, 0}, {0, 1, 0}, {0, 0, 0}
-		};
-
-	printf("Test 1: %d\n", ft_convolve_center(grid, kernel));
-	
-	ft_set_kernel_ones(kernel);
-	
-	printf("Test 2: %d\n", ft_convolve_center(grid, kernel));
-	return (0);
-}
-
 /*
 EDGE CASES:
 This computes one output value, not full padded-image convolution.
@@ -2730,7 +3155,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2754,25 +3179,51 @@ TODO:
 3. Fill the output in row-major order.
 
 EXPECTED OUTPUT:
+Before:
+{1, 2, 3},
+{4, 5, 6},
+{7, 8, 9},
+
+After:
+{1, 3, 6},
+{5, 12, 21},
+{12, 27, 45},
 Test 1: 1 6
 Test 2: 12 45
 */
 
+static void	ft_test_print_grid(int grid[3][3]);
+
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{4, 5, 6},
-			{7, 8, 9}
-		};
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}
+	};
 	int	out[3][3] = {{0}};
 
+	printf("Before:\n");
+	ft_test_print_grid(grid);
 	ft_prefix_sum(grid, out);
-	
+	printf("\nAfter:\n");
+	ft_test_print_grid(out);
 	printf("Test 1: %d %d\n", out[0][0], out[0][2]);
-	
 	printf("Test 2: %d %d\n", out[1][1], out[2][2]);
 	return (0);
+}
+
+static void	ft_test_print_grid(int grid[3][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -2786,7 +3237,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2810,24 +3261,62 @@ TODO:
 3. Verify both dimensions of the result.
 
 EXPECTED OUTPUT:
+Input (2x3):
+{1, 2, 3},
+{4, 5, 6},
+
+After:
+{1, 4},
+{2, 5},
+{3, 6},
 Test 1: 1 4
 Test 2: 3 6
 */
 
+static void	ft_test_print_matrix(int grid[3][2]);
+static void	ft_test_print_input(int grid[2][3]);
+
 int	main(void)
 {
 	int	grid[2][3] = {
-			{1, 2, 3},
-			{4, 5, 6}
-		};
+		{1, 2, 3},
+		{4, 5, 6}
+	};
 	int	dest[3][2] = {{0}};
 
+	printf("Input (2x3):\n");
+	ft_test_print_input(grid);
 	ft_transpose_rectangle(grid, dest);
-	
+	printf("\nAfter:\n");
+	ft_test_print_matrix(dest);
 	printf("Test 1: %d %d\n", dest[0][0], dest[0][1]);
-	
 	printf("Test 2: %d %d\n", dest[2][0], dest[2][1]);
 	return (0);
+}
+
+static void	ft_test_print_matrix(int grid[3][2])
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		printf("{%d, %d},\n", grid[i][0], grid[i][1]);
+		i++;
+	}
+}
+
+static void	ft_test_print_input(int grid[2][3])
+{
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		printf("{%d, %d, %d},\n", grid[i][0],
+			grid[i][1], grid[i][2]);
+		i++;
+	}
 }
 
 /*
@@ -2841,7 +3330,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2873,14 +3362,12 @@ Test 3: 8
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
 	printf("Test 1: %d\n", ft_cube_get(cube, 1, 0, 1));
-	
 	printf("Test 2: %d\n", ft_cube_get(cube, 0, 0, 0));
-	
 	printf("Test 3: %d\n", ft_cube_get(cube, 1, 1, 1));
 	return (0);
 }
@@ -2896,7 +3383,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -2920,23 +3407,62 @@ TODO:
 3. Preserve all other cells.
 
 EXPECTED OUTPUT:
+Before:
+Layer 0:
+{1, 2},
+{3, 4},
+Layer 1:
+{5, 6},
+{7, 8},
+
+After:
+Layer 0:
+{1, 2},
+{3, 4},
+Layer 1:
+{5, 6},
+{42, 8},
 Test 1: 42
 Test 2: 1
 */
 
+static void	ft_test_print_cube(int cube[2][2][2]);
+
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
+	printf("Before:\n");
+	ft_test_print_cube(cube);
 	ft_cube_set(cube, 1, 1, 0, 42);
-	
+	printf("\nAfter:\n");
+	ft_test_print_cube(cube);
 	printf("Test 1: %d\n", cube[1][1][0]);
-	
 	printf("Test 2: %d\n", cube[0][0][0]);
 	return (0);
+}
+
+static void	ft_test_print_cube(int cube[2][2][2])
+{
+	int	layer;
+	int	row;
+
+	layer = 0;
+	while (layer < 2)
+	{
+		printf("Layer %d:\n", layer);
+		row = 0;
+		while (row < 2)
+		{
+			printf("{%d, %d},\n", cube[layer][row][0],
+				cube[layer][row][1]);
+			row++;
+		}
+		layer++;
+	}
 }
 
 /*
@@ -2950,13 +3476,14 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 EOF
 
 cat > 52_ft_print_cube.c <<'EOF'
+#include <unistd.h>
 #include <stdio.h>
 
 void	ft_print_cube(int cube[2][2][2])
@@ -2985,12 +3512,12 @@ Test 1:
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
 	printf("Test 1:\n");
-	
+	fflush(stdout);
 	ft_print_cube(cube);
 	return (0);
 }
@@ -3006,7 +3533,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -3037,14 +3564,12 @@ Test 2: 35
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
 	printf("Test 1: %d\n", ft_sum_cube(cube));
-	
 	cube[0][0][0] = 0;
-	
 	printf("Test 2: %d\n", ft_sum_cube(cube));
 	return (0);
 }
@@ -3060,7 +3585,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -3091,12 +3616,11 @@ Test 2: 26
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
 	printf("Test 1: %d\n", ft_sum_layer(cube, 0));
-	
 	printf("Test 2: %d\n", ft_sum_layer(cube, 1));
 	return (0);
 }
@@ -3112,7 +3636,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -3143,12 +3667,11 @@ Test 2: 12
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
 	printf("Test 1: %d\n", ft_sum_depth(cube, 0, 0));
-	
 	printf("Test 2: %d\n", ft_sum_depth(cube, 1, 1));
 	return (0);
 }
@@ -3164,7 +3687,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -3195,14 +3718,12 @@ Test 2: 0
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
-
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 	cube[1][0][0] = 1;
-	
+
 	printf("Test 1: %d\n", ft_count_cube_value(cube, 1));
-	
 	printf("Test 2: %d\n", ft_count_cube_value(cube, 9));
 	return (0);
 }
@@ -3218,7 +3739,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -3249,14 +3770,12 @@ Test 2: 42
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
 	printf("Test 1: %d\n", ft_max_cube(cube));
-	
 	cube[0][1][0] = 42;
-	
 	printf("Test 2: %d\n", ft_max_cube(cube));
 	return (0);
 }
@@ -3272,7 +3791,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -3296,26 +3815,64 @@ TODO:
 3. Leave the source unchanged.
 
 EXPECTED OUTPUT:
+Before:
+Layer 0:
+{1, 2},
+{3, 4},
+Layer 1:
+{5, 6},
+{7, 8},
+
+After:
+Layer 0:
+{1, 2},
+{3, 4},
+Layer 1:
+{5, 6},
+{7, 8},
 Test 1: 1 8
 Test 2: 1
 */
 
+static void	ft_test_print_cube(int cube[2][2][2]);
+
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 	int	dest[2][2][2] = {{{0}}};
 
+	printf("Before:\n");
+	ft_test_print_cube(cube);
 	ft_copy_cube(cube, dest);
-	
+	printf("\nAfter:\n");
+	ft_test_print_cube(dest);
 	printf("Test 1: %d %d\n", dest[0][0][0], dest[1][1][1]);
-	
 	dest[0][0][0] = 99;
-	
 	printf("Test 2: %d\n", cube[0][0][0]);
 	return (0);
+}
+
+static void	ft_test_print_cube(int cube[2][2][2])
+{
+	int	layer;
+	int	row;
+
+	layer = 0;
+	while (layer < 2)
+	{
+		printf("Layer %d:\n", layer);
+		row = 0;
+		while (row < 2)
+		{
+			printf("{%d, %d},\n", cube[layer][row][0],
+				cube[layer][row][1]);
+			row++;
+		}
+		layer++;
+	}
 }
 
 /*
@@ -3329,7 +3886,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
@@ -3359,28 +3916,20 @@ Test 1: 1 2 3 4 5 6 7 8
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 	int	out[8] = {0};
 	int	i;
 
 	ft_flatten_cube(cube, out);
-	
 	printf("Test 1:");
-	
 	i = 0;
-	
 	while (i < 8)
-	
 	{
-	
 		printf(" %d", out[i]);
-	
 		i++;
-	
 	}
-	
 	printf("\n");
 	return (0);
 }
@@ -3396,10 +3945,9 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
 EOF
 
-echo "All 60 multidimensional array exercises reset!"

@@ -15,26 +15,23 @@ TODO:
 3. Store coordinates and return 1, or return 0 if absent.
 
 EXPECTED OUTPUT:
-Test 1: 1 (1, 0)
+Test 1: 1 (0, 1)
 Test 2: 0
 */
 
 int	main(void)
 {
 	int	grid[3][3] = {
-			{1, 2, 3},
-			{2, 3, 2},
-			{1, 2, 1}
-		};
+		{1, 2, 3},
+		{2, 3, 2},
+		{1, 2, 1}
+	};
 	int	row = -1;
 	int	col = -1;
 
 	printf("Test 1: ");
-	
 	if (ft_find_value(grid, 2, &row, &col))
-	
 		printf("1 (%d, %d)\n", row, col);
-	
 	printf("Test 2: %d\n", ft_find_value(grid, 9, &row, &col));
 	return (0);
 }
@@ -50,7 +47,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */

@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <stdio.h>
 
 void	ft_print_cube(int cube[2][2][2])
@@ -26,12 +27,12 @@ Test 1:
 int	main(void)
 {
 	int	cube[2][2][2] = {
-			{{1, 2}, {3, 4}},
-			{{5, 6}, {7, 8}}
-		};
+		{{1, 2}, {3, 4}},
+		{{5, 6}, {7, 8}}
+	};
 
 	printf("Test 1:\n");
-	
+	fflush(stdout);
 	ft_print_cube(cube);
 	return (0);
 }
@@ -47,7 +48,7 @@ LEARNING CHECK:
 4. How would this operation help in a larger matrix algorithm?
 
 NOTE:
-The function is intentionally empty. Implement it yourself.
+Implement the exercise function yourself; testing helpers are provided.
 Do not run the test before implementing a non-void function.
 Keep implementation functions at or below 25 lines and respect 42 Norm.
 */
